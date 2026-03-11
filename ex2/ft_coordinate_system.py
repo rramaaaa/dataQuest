@@ -34,9 +34,10 @@ print()
 position: tuple[int, int, int] = (10, 20, 5)
 print(f"Position created: {position}")
 position_two: tuple[int, int, int] = (0, 0, 0)
+x: float = distance_calculation(position, position_two)
 print(
    f"Distance between {position_two} and {position}: "
-   f"{distance_calculation(position, position_two):.2f}"
+   f"{x: .2f}"
 )
 print()
 parsing: str = "3,4,0"

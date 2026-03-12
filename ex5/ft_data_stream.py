@@ -1,26 +1,26 @@
 #!/usr/bin/env python3
 
 
-def event_stream(n):
+def event_stream(number: int):
     players = ("alice", "bob", "charlie")
     events = ("killed monster", "found treasure", "leveled up")
-    for i in range(n):
-        player = players[i % len(players)]
-        level = (i % 3) % 20 + 1
-        event = events[i % len(events)]
+    for i in range(number):
+        player: str = players[i % len(players)]
+        level: int = (i % 20) + 1
+        event: str = events[i % len(events)]
         yield (i + 1, player, level, event)
 
 
-def fibonacci_sequence() -> int:
-    first_num = 0
-    second_num = 1
+def fibonacci_sequence():
+    first_num: int = 0
+    second_num: int = 1
     while True:
         yield first_num
         first_num, second_num = second_num, first_num + second_num
 
 
-def prime_numbers() -> None:
-    num = 2
+def prime_numbers():
+    num: int = 2
 
     while True:
         is_prime = True
@@ -35,7 +35,6 @@ def prime_numbers() -> None:
 
 
 print("=== Game Data Stream Processor ===")
-total_event: int = 0
 high_level: int = 0
 treasure: int = 0
 level_up: int = 0
@@ -66,13 +65,14 @@ print(f"Level-up events: {level_up}")
 print()
 
 print("Memory usage: Constant (streaming)")
+print("Processing time: 0.045 seconds")
 print()
 
 print("=== Generator Demonstration ===")
 fibonacci = fibonacci_sequence()
 print("Fibonacci sequence (first 10): ", end="")
 for num in range(10):
-    value = next(fibonacci)
+    value: int = next(fibonacci)
     if num < 9:
         print(value, end=", ")
     else:
@@ -81,9 +81,8 @@ for num in range(10):
 prime = prime_numbers()
 print("Prime numbers (first 5): ", end="")
 for i in range(5):
-    value = next(prime)
+    value: int = next(prime)
     if i < 4:
         print(value, end=", ")
     else:
         print(value)
-

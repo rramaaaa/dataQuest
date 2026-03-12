@@ -1,76 +1,58 @@
 #!/usr/bin/env python3
 
+if __name__ == "__main__":
+    players = ["alice", "bob", "charlie", "diana"]
+    scores = {"alice": 2300, "bob": 1800, "charlie": 2150, "diana": 2050}
+    achievements = {"alice": ["first_kill", "level_10",
+                              "boss_slayer", "treasure_hunter"],
+                    "bob": ["first_kill", "level_10",
+                            "boss_slayer", "collector"],
+                    "charlie": ["level_10", "treasure_hunter",
+                                "boss_slayer", "speed_demon", "perfectionist"],
+                    "diana": ["boss_slayer", "collector"]}
+    regions = {"alice": "north", "bob": "north",
+               "charlie": "east", "diana": "central"}
 
-print("=== Game Analytics Dashboard ===")
+    status = {"alice": 1, "bob": 0, "charlie": 1, "diana": 1}
+    print("=== Game Analytics Dashboard ===")
+    print()
+    print("=== List Comprehension Examples ===")
+    high_scorers = [name for name in players if scores[name] > 2000]
+    scores_doubled = [scores[player] * 2 for player in players]
+    active_players = [player for player in players if status[player] == 1]
+    print(f"High scorers (>2000): {high_scorers}")
+    print(f"Scores doubled: {scores_doubled}")
+    print(f"Active players: {active_players}")
+    print()
+    print("=== Dict Comprehension Examples ===")
+    score_categories = {
+            "high": len([score for score in scores if scores[score] > 2000]),
+            "medium": len([score for score in scores
+                           if 1500 < scores[score] <= 2000]),
+            "low": len([score for score in scores if scores[score] <= 1500])
+    }
 
-players = ["alice", "bob", "charlie", "diana"]
-scores = [2300, 1800, 2150, 2050]
-active_players = ["alice", "bob", "charlie"]
-achievements = [
-    ("alice", "first_kill"),
-    ("alice", "level_10"),
-    ("bob", "first_kill"),
-    ("charlie", "boss_slayer"),
-    ("charlie", "level_10"),
-    ("charlie", "first_kill"),
-]
-
-regions = ["north", "east", "central", "north"]
-
-print("=== List Comprehension Examples ===")
-
-high_scorers = [players[i] for i in range(len(scores)) if scores[i] > 2000]
-print(f"High scorers (>2000): {high_scorers}")
-
-scores_doubled = [s * 2 for s in scores]
-print(f"Scores doubled: {scores_doubled}")
-
-active = [p for p in active_players]
-print(f"Active players: {active}")
-
-print("=== Dict Comprehension Examples ===")
-
-player_scores = {players[i]: scores[i] for i in range(len(players))}
-print(f"Player scores: {player_scores}")
-
-score_categories = {
-    "high": len([s for s in scores if s > 2000]),
-    "medium": len([s for s in scores if 1500 <= s <= 2000]),
-    "low": len([s for s in scores if s < 1500])
-}
-print(f"Score categories: {score_categories}")
-
-achievement_counts = {
-    p: len([a for (player, a) in achievements if player == p])
-    for p in players
-}
-print(f"Achievement counts: {achievement_counts}")
-
-print("=== Set Comprehension Examples ===")
-
-unique_players = {p for p in players}
-print(f"Unique players: {unique_players}")
-
-unique_achievements = {a for (_, a) in achievements}
-print(f"Unique achievements: {unique_achievements}")
-
-active_regions = {r for r in regions}
-print(f"Active regions: {active_regions}")
-
-print("=== Combined Analysis ===")
-
-total_players = len(players)
-print(f"Total players: {total_players}")
-
-total_unique_achievements = len(unique_achievements)
-print(f"Total unique achievements: {total_unique_achievements}")
-
-average_score = sum(scores) / len(scores)
-print(f"Average score: {average_score}")
-
-top_index = scores.index(max(scores))
-top_player = players[top_index]
-top_score = scores[top_index]
-top_achievements = achievement_counts[top_player]
-
-print(f"Top performer: {top_player} ({top_score} points, {top_achievements} achievements)")
+    achievement_counts = {name: len(achievements[name]) for name in players}
+    print(f"Player scores: {scores}")
+    print(f"Score categories: {score_categories}")
+    print(f"Achievement counts: {achievement_counts}")
+    print()
+    print("=== Set Comprehension Examples ===")
+    unique_players = {name for name in players}
+    unique_achievements = {a for p in players for a in achievements[p]}
+    active_regions = {regions[r] for r in active_players}
+    print(f"Unique players: {unique_players}")
+    print(f"Unique achievements: {unique_achievements}")
+    print(f"Active regions: {active_regions}")
+    print()
+    print("=== Combined Analysis ===")
+    total_players = len(unique_players)
+    total_unique_achievements = len(unique_achievements)
+    average_score = sum(scores[p] for p in players) / total_players
+    top_performer = max(players, key=lambda p: scores[p])
+    print(f"Total players: {total_players}")
+    print(f"Total unique achievements: {total_unique_achievements}")
+    print(f"Average score: {average_score: .2f}")
+    print(f"Top performer: {top_performer} ({scores[top_performer]}", end="")
+    print(f" points, {len(achievements[top_performer])} achievements)")
+    print()

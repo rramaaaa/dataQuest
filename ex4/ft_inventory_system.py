@@ -14,6 +14,7 @@ print("=== Inventory System Analysis ===")
 argc: int = len(sys.argv)
 i: int = 1
 items: dict = dict()
+
 while i < argc:
     res: str = ""
     j: int = 0
@@ -32,18 +33,31 @@ while i < argc:
             res += sys.argv[i][j]
         j += 1
     i += 1
+
 total_items: int = 0
+
 for val in items.values():
     total_items += val
+
 print(f"Total items in inventory: {total_items}")
 print(f"Unique item types: {len(items)}")
 print()
+
 print("=== Current Inventory ===")
-i = 0
-for item in items.keys():
-    print(f"{item}: {items[item]} units "
-          f"({(items[item] / total_items) * 100: .1f}%)")
+sorted_item = dict()
+while len(sorted_item) < len(items):
+    max_item = ""
+    max_value = -1
+
+    for item in items.keys():
+        if item not in sorted_item and items[item] > max_value:
+            max_value = items[item]
+            max_item = item
+    print(f"{max_item}: {items[max_item]} units "
+          f"({(items[max_item] / total_items) * 100: .1f}%)")
+    sorted_item[max_item] = True
 print()
+
 print("=== Inventory Statistics ===")
 most: int = 0
 it: str = ""
@@ -58,17 +72,21 @@ for item in items.keys():
         it = item
 print(f"Least abundant: {it} ({most} units)")
 print()
+
 print("=== Item Categories ===")
-items['moderate']: dict = dict()
-items['scare']: dict = dict()
+categories: dict = {
+    "Moderate": dict(),
+    "Scarce": dict()
+}
 for item in items.keys():
     if items[item] >= 5:
-        moderate[item] = items[item]
+        categories["Moderate"][item] = items[item]
     else:
-        scare[item] = items[item]
-print(f"Moderate: {moderate}")
-print(f"Scarce: {scare}")
+        categories["Scarce"][item] = items[item]
+print(f"Moderate: {categories["Moderate"]}")
+print(f"Scarce: {categories["Scarce"]}")
 print()
+
 print("=== Management Suggestions ===")
 restock: list = []
 for item in items.keys():
@@ -76,6 +94,7 @@ for item in items.keys():
         restock.append(item)
 print(f"• Restock needed: {restock}")
 print()
+
 print("=== Dictionary Properties Demo ===")
 list_of_items = []
 list_of_val = []
